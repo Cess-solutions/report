@@ -1,28 +1,36 @@
-\documentclass[12pt]{report}
-
-% Packages
+\documentclass{report}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
-\usepackage{biblatex} % if you use bibliography
-\addbibresource{references.bib} % your bibliography file
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{amsmath}
 
-\begin{document}
+% EXPLICITLY DISABLE BIBLATEX
+\makeatletter
+\@ifpackageloaded{biblatex}{%
+  \PackageError{}{biblatex is loaded but should not be}{}}{}
+\makeatother
 
-\title{My Report Title}
+% Use basic BibTeX (not biblatex)
+\usepackage{natbib}
+
+% Configure hyperref LAST
+\usepackage[unicode=true]{hyperref}
+
+\title{CESS}
 \author{Your Name}
 \date{\today}
 
+\begin{document}
+
 \maketitle
+
 \tableofcontents
-\clearpage
 
-\chapter{Introduction}
-\input{chapters/introduction.tex} % includes chapters/introduction.tex
+\input{chapters/content.tex}
 
-% You can add more chapters here
-%\chapter{Another Chapter}
-%\input{chapters/anotherchapter.tex}
-
-\printbibliography % prints bibliography if used
+% Use basic BibTeX
+\bibliographystyle{plain}  % plainnat, unsrt, etc.
+\bibliography{references}  % Your .bib file
 
 \end{document}
