@@ -4,7 +4,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: write  # Required for creating releases
+  contents: write
 
 jobs:
   build:
@@ -28,11 +28,15 @@ jobs:
         run: |
           latexmk -pdf -interaction=nonstopmode -file-line-error -bibtex main.tex
 
+      - name: Get current date
+        id: date
+        run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: main.pdf
-          tag_name: "v$(date +'%Y-%m-%d')"
-          name: "Report $(date +'%Y-%m-%d')"
+          tag_name: "v${{ steps.date.outputs.DATE }}"
+          name: "Report ${{ steps.date.outputs.DATE }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
