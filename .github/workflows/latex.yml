@@ -1,7 +1,7 @@
 name: Compile and Release LaTeX PDF
 on:
   push:
-    branches: [ "main" ]  # Only trigger on pushes to 'main'
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -9,8 +9,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for release notes
 
-      - name: Install LaTeX and biblatex
+      - name: Install LaTeX
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -21,14 +23,14 @@ jobs:
             biber \
             latexmk
 
-      - name: Compile LaTeX document
+      - name: Compile LaTeX
         run: |
           latexmk -pdf -interaction=nonstopmode -file-line-error -bibtex main.tex
 
-      - name: Create GitHub Release and Upload PDF
-        uses: softprops/action-gh-release@v1
+      - name: Create Release
+        uses: ncipollo/release-action@v1
         with:
-          files: main.pdf
-          tag_name: "v$(date +'%Y.%m.%d')"  # Auto-tag with today's date (e.g., v2024.06.25)
-          draft: false
-          prerelease: false
+          artifacts: "main.pdf"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: "v$(date +'%Y-%m-%d')"
+          name: "PDF Release $(date +'%Y-%m-%d')"
