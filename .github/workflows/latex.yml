@@ -8,11 +8,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up TeX Live
-        uses: xu-cheng/texlive-action@v2
-        with:
-          texlive-version: '2023'
-          texlive-scheme: 'full'
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-science \
+            latexmk \
+            chktex
 
       - name: Compile LaTeX document
         run: |
