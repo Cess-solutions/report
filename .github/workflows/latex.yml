@@ -3,14 +3,15 @@ on:
   push:
     branches: [ "main" ]
 
+permissions:
+  contents: write  # Required for creating releases
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Required for release notes
 
       - name: Install LaTeX
         run: |
@@ -28,9 +29,10 @@ jobs:
           latexmk -pdf -interaction=nonstopmode -file-line-error -bibtex main.tex
 
       - name: Create Release
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v1
         with:
-          artifacts: "main.pdf"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: "v$(date +'%Y-%m-%d')"
-          name: "PDF Release $(date +'%Y-%m-%d')"
+          files: main.pdf
+          tag_name: "v$(date +'%Y-%m-%d')"
+          name: "Report $(date +'%Y-%m-%d')"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
