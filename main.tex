@@ -5,14 +5,14 @@
 \usepackage{titletoc}
 \usepackage{amsmath}
 
-% EXPLICITLY DISABLE BIBLATEX
+% Disable biblatex explicitly
 \makeatletter
 \@ifpackageloaded{biblatex}{%
   \PackageError{}{biblatex is loaded but should not be}{}}{}
 \makeatother
 
-% Use basic BibTeX (not biblatex)
-\usepackage{natbib}
+% Use basic BibTeX with natbib
+\usepackage[numbers,sort&compress]{natbib}
 
 % Configure hyperref LAST
 \usepackage[unicode=true]{hyperref}
@@ -23,14 +23,26 @@
 
 \begin{document}
 
+% First page with image only
+\thispagestyle{empty}
+\begin{center}
+    \IfFileExists{cess.png}{%
+        \includegraphics[width=0.8\textwidth]{cess.png}%
+    }{%
+        \fbox{\parbox{0.8\textwidth}{\centering Image 'cess.png' not found}}%
+    }
+\end{center}
+\clearpage
+
+% Regular title page
 \maketitle
 
 \tableofcontents
 
 \input{chapters/content.tex}
 
-% Use basic BibTeX
-\bibliographystyle{plain}  % plainnat, unsrt, etc.
-\bibliography{references}  % Your .bib file
+% Basic BibTeX configuration
+\bibliographystyle{plainnat}
+\bibliography{references}
 
 \end{document}
