@@ -8,7 +8,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install LaTeX
+      - name: Install LaTeX and biblatex
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -17,12 +17,14 @@ jobs:
             texlive-fonts-recommended \
             texlive-fonts-extra \
             texlive-science \
+            texlive-bibtex-extra \
+            texlive-publishers \
             latexmk \
-            chktex
+            biber
 
       - name: Compile LaTeX document
         run: |
-          latexmk -pdf -interaction=nonstopmode -file-line-error main.tex
+          latexmk -pdf -interaction=nonstopmode -file-line-error -bibtex -pdflatex="pdflatex -interaction=nonstopmode -file-line-error" main.tex
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
