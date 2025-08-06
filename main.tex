@@ -1,0 +1,28 @@
+\documentclass[12pt]{report}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{biblatex} % if you use bibliography
+\addbibresource{references.bib} % your bibliography file
+
+\begin{document}
+
+\title{My Report Title}
+\author{Your Name}
+\date{\today}
+
+\maketitle
+\tableofcontents
+\clearpage
+
+\chapter{Introduction}
+\input{chapters/introduction.tex} % includes chapters/introduction.tex
+
+% You can add more chapters here
+%\chapter{Another Chapter}
+%\input{chapters/anotherchapter.tex}
+
+\printbibliography % prints bibliography if used
+
+\end{document}
